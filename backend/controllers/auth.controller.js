@@ -26,7 +26,12 @@ export const signin =async(req, res, next)=>{
         const validPassword = bcryptjs.compareSync(password,validUser.password);
         if(!validPassword) return next(errorHandler(401,'Invalid password'));
         const token =jwt.sign({id:validPassword._id }, process.env.JWT_SECRET)
-        res.cookie('acces_token',token, {httpOnly:true}).status(200).json(validUser)
+        const{ password:hashedPassword,...rest}=validUser._doc;
+        const expiresDate = new Date(Date.now() + 3600000); //1hr 
+        res
+        .cookie('acces_token',token, {httpOnly:true, expires:expiryDate})
+        .status(200)
+        .json(rest);
     } catch (error) {
         next(error);
         
