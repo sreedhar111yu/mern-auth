@@ -4,6 +4,7 @@ import { signInstart } from '../redux/user/userSlice';
 import { signInSuccess } from '../redux/user/userSlice';
 import { signInFailure } from '../redux/user/userSlice';
 import {  useDispatch, useSelector } from 'react-redux';
+import OAuth  from '../Components/OAuth';
 
 
 function Signin() {
@@ -30,16 +31,12 @@ function Signin() {
         body:JSON.stringify(formData),
       });
       const data =await res.json();
-      
-      
       if(data.success==false){
         dispach(signInFailure(data));
         return;
       }
-      
+      dispach(signInSuccess(data));
       navigate('/')
-     
-      
     } catch (error) {
       dispach(signInFailure(error));
       return;
@@ -65,6 +62,7 @@ function Signin() {
 
       <button disabled={loading} className='bg-slate-700 text-white p-2 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
         {loading ? 'Loading...':'Sign In'}</button>
+        <OAuth />
 
     </form>
     <div className='flex gap-2 mt-5'>
