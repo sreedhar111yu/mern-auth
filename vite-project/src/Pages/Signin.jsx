@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {Link, useNavigate, useSearchParams} from 'react-router-dom'
-import { signInstart } from '../redux/user/userSlice';
+import { signInStart } from '../redux/user/userSlice';
 import { signInSuccess } from '../redux/user/userSlice';
 import { signInFailure } from '../redux/user/userSlice';
 import {  useDispatch, useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ function Signin() {
   const handleSubmit = async (e)=> {
     e.preventDefault(); //not reload the page
     try {
-      dispach(signInstart());
+      dispach(signInStart());
       const res =await fetch('/api/auth/signin',{
         method:'POST',
         headers:{
@@ -31,7 +31,7 @@ function Signin() {
         body:JSON.stringify(formData),
       });
       const data =await res.json();
-      if(data.success==false){
+      if(data.success===false){
         dispach(signInFailure(data));
         return;
       }
